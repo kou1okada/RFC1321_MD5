@@ -10,6 +10,8 @@ The following makes PROTOTYPES default to 0 if it has not already
 #define PROTOTYPES 0
 #endif
 
+#include <limits.h>
+
 /* POINTER defines a generic pointer type */
 typedef unsigned char *POINTER;
 
@@ -17,7 +19,13 @@ typedef unsigned char *POINTER;
 typedef unsigned short int UINT2;
 
 /* UINT4 defines a four byte word */
+#if   UINT_MAX  == 0xFFFFFFFF
+typedef unsigned int UINT4;
+#elif ULONG_MAX == 0xFFFFFFFF
 typedef unsigned long int UINT4;
+#else
+#error "typedef failed: UINT4"
+#endif
 
 /* PROTO_LIST is defined depending on how PROTOTYPES is defined above.
 If using PROTOTYPES, then PROTO_LIST returns the list, otherwise it
